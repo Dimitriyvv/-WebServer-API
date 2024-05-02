@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<button type="submit" onclick="window.location.href='/login'">Вход</button>
+    <button type="submit" onclick="window.location.href='/'">На главную</button>
+<title>Регистрация</title>
+<style>
+    body {
+        background: #ffd9e6;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+    h2 {
+        text-align: center;
+        color: #ff66b2;
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background: #ff66b2;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Регистрация</h2>
+    <form>
+        <input type="text" name="username1" placeholder="username">
+        <input type="password" name="password1" placeholder="password">
+        <input type="email" name="email" placeholder="Email">
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виртуальная доска дел с уведомлениями</title>
+    <button onclick="window.location.href='/login'">Войти</button>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f7f9;
+        }
+        h1 {
+            color: #e88087;
+            text-align: center;
+        }
+        .task {
+            background-color: #fedeec;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .alert {
+            background-color: #ff7b7b;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: none; /* Уведомление изначально скрыто */
+        }
+        input[type="text"], input[type="time"], button {
+            padding: 8px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="time"] {
+            width: 200px;
+        }
+        button {
+            background-color: #e88087;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Виртуальная доска дел с уведомлениями</h1>
+    <div id="tasks">
+    </div>
+    <div class="alert" id="notification"></div>
+    <form id="taskForm">
+        <input type="text" id="taskInput" placeholder="Введите задачу">
+        <input type="time" id="timeInput">
+        <button type="submit">Добавить задачу</button>
+    </form>
+    <h3>Для того чтобы мы могли запомнить ваши задачи советуем войти в учётную запись</h3>
+    <script>
+        function deleteTask(event) {
+            event.target.parentNode.remove();
+        }
+
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            const timeInput = document.getElementById('timeInput');
+            const taskTime = timeInput.value;
+            if (taskText && taskTime) {
+                const tasksDiv = document.getElementById('tasks');
+                const taskDiv = document.createElement('div');
+                taskDiv.classList.add('task');
+                taskDiv.dataset.time = taskTime;
+                taskDiv.textContent = `${taskText} (${taskTime})`;
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Удалить';
+                deleteButton.classList.add('delete-button');
+                deleteButton.addEventListener('click', deleteTask);
+                taskDiv.appendChild(deleteButton);
+                tasksDiv.appendChild(taskDiv);
+                taskInput.value = '';
+                timeInput.value = '';
+            } else {
+                alert('Пожалуйста, введите задачу и выберите время');
+            }
+        });
+
+        // Проверить время каждую секунду
+        setInterval(checkTime, 60000);
+
+        function checkTime() {
+            const currentTime = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+            const tasks = document.querySelectorAll('.task');
+            tasks.forEach(task => {
+                const taskTime = task.getAttribute('data-time');
+                if (currentTime === taskTime) {
+                    document.getElementById('notification').innerText = `Время для задачи "${task.textContent}" истекло.`;
+                    document.getElementById('notification').style.display = 'block'; // Показать уведомление
+                }
+            });
+        }
+    // Открывать модальное окно при клике на кнопку
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            document.getElementById('loginModal').style.display = 'block';
+        });
+
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            document.getElementById('registerModal').style.display = 'block';
+        });
+
+        // Закрывать модальное окно при клике на крестик
+        document.getElementById('loginClose').addEventListener('click', function() {
+            document.getElementById('loginModal').style.display = 'none';
+        });
+
+        document.getElementById('registerClose').addEventListener('click', function() {
+            document.getElementById('registerModal').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
